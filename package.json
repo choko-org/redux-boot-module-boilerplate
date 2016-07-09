@@ -2,11 +2,11 @@
   "name": "redux-boot-module-boilerplate",
   "version": "1.0.0",
   "description": "Redux Boot module's boilerplate.",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "rm -f build/index.js* && webpack",
-    "pretest": "rm -f build/test.js* && webpack --config ./webpack.config.test.js",
-    "test": "tape build/test.js | tap-spec",
+    "build": "rm -f dist/index.js* && webpack",
+    "pretest": "rm -f dist/test.js* && webpack --config ./webpack.config.test.js",
+    "test": "tape dist/test.js | tap-spec",
     "prepublish": "npm run build"
   },
   "repository": {

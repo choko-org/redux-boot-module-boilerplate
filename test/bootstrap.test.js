@@ -1,7 +1,7 @@
 import test from 'tape'
 import {BOOT} from 'redux-boot'
 import request from 'supertest'
-import expressModule, { HTTP_AFTER_BOOT } from '../src'
+import boilerplateModule, { HTTP_AFTER_BOOT } from '../src'
 
 test('Web server bootstrap', assert => {
   const getState = () => {
@@ -11,8 +11,14 @@ test('Web server bootstrap', assert => {
   }
 
   const dispatch = (action) => {
+    console.log('TESTTTTA')
+
     if (action.type === HTTP_AFTER_BOOT) {
       const { httpServer } = action.payload
+
+      console.log('TESTTTT')
+
+      console.log(httpServer)
 
       request(httpServer)
         .get('/')
@@ -21,6 +27,8 @@ test('Web server bootstrap', assert => {
           if (error) throw error
 
           assert.ok(!error, 'Ok')
+          console.log(response)
+          //assert.equal(response.body, 'Hello World!')
           assert.end()
 
           httpServer.close()
@@ -33,5 +41,5 @@ test('Web server bootstrap', assert => {
   const next = action => action
   const action = { type: BOOT }
 
-  expressModule.middleware({getState, dispatch})(next)(action)
+  boilerplateModule.middleware[BOOT]({getState, dispatch})(next)(action)
 })
