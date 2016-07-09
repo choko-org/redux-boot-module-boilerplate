@@ -12,12 +12,7 @@ import {
 
 export default {
 
-  reducer: {
-    [HTTP_REQUEST]: (state, action) => ({
-      ...state,
-      response: 'Hello World!'
-    })
-  },
+  reducer: {},
 
   middleware: {
 
@@ -25,17 +20,16 @@ export default {
       let nextResult = next(action)
 
       const server = http.createServer((request, response) => {
-        store.dispatch(httpRequest({request, response}))
-
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/plain')
-        response.end(store.getState().response)
+        
+        response.end('Hello World!')
       })
 
       const port = store.getState().variables.port
 
       const app = await new Promise((resolve, reject) => {
-        const server = server.listen(port, () => {
+        server.listen(port, () => {
           console.info(`Server running at por ${port}`)
           resolve(server)
         })
@@ -49,14 +43,6 @@ export default {
   }
 
 }
-
-// Http request Action.
-export const httpRequest = createAction(HTTP_REQUEST, async ({request, response}) => {
-  return {
-    request,
-    response
-  }
-})
 
 // Http server bootstrap Action.
 export const httpBoot = createAction(HTTP_BOOT, (httpServer) => ({ httpServer }))

@@ -1,7 +1,8 @@
 import test from 'tape'
 import {BOOT} from 'redux-boot'
 import request from 'supertest'
-import boilerplateModule, { HTTP_AFTER_BOOT } from '../src'
+import boilerplateModule from '../src'
+import {HTTP_AFTER_BOOT} from '../src/constants'
 
 test('Web server bootstrap', assert => {
   const getState = () => {
@@ -11,24 +12,18 @@ test('Web server bootstrap', assert => {
   }
 
   const dispatch = (action) => {
-    console.log('TESTTTTA')
 
     if (action.type === HTTP_AFTER_BOOT) {
       const { httpServer } = action.payload
 
-      console.log('TESTTTT')
-
-      console.log(httpServer)
-
       request(httpServer)
         .get('/')
-        .expect(404)
+        .expect(200)
         .end((error, response) => {
           if (error) throw error
 
           assert.ok(!error, 'Ok')
-          console.log(response)
-          //assert.equal(response.body, 'Hello World!')
+          assert.equal(response.text, 'Hello World!')
           assert.end()
 
           httpServer.close()
