@@ -22,3 +22,7 @@ import {
 ```js
 // @TODO: Insert how to use.
 ```
+
+## License
+
+[MIT](LICENSE.md)
